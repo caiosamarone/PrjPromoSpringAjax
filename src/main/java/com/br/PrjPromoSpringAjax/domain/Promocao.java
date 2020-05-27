@@ -1,8 +1,9 @@
-package com.br.PrjPromoSpringAjax.domain;
+	package com.br.PrjPromoSpringAjax.domain;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 import org.springframework.format.annotation.NumberFormat;
 import org.springframework.format.annotation.NumberFormat.Style;
@@ -24,6 +26,7 @@ public class Promocao implements Serializable{
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@NotBlank
 	@Column(name = "titulo", nullable = false)
 	private String titulo;
 	
@@ -46,6 +49,13 @@ public class Promocao implements Serializable{
 	@ManyToOne
 	@JoinColumn(name = "categoria_fk")
 	private Categoria categoria;
+	
+	@Column(name="total_likes")
+	private int likes;
+	
+	@Column(name = "data_cadastro", nullable = false)
+	private LocalDateTime dtCadastro;
+
 	
 	public Long getId() {
 		return id;
@@ -111,20 +121,15 @@ public class Promocao implements Serializable{
 		this.likes = likes;
 	}
 
-	public LocalDate getDtCadastro() {
+	public LocalDateTime getDtCadastro() {
 		return dtCadastro;
 	}
 
-	public void setDtCadastro(LocalDate dtCadastro) {
+	public void setDtCadastro(LocalDateTime dtCadastro) {
 		this.dtCadastro = dtCadastro;
 	}
 
-	@Column(name="total_likes")
-	private int likes;
 	
-	@Column(name = "data_cadastro", nullable = false)
-	private LocalDate dtCadastro;
-
 	public Categoria getCategoria() {
 		return categoria;
 	}
