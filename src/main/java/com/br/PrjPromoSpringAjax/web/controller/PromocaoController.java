@@ -19,6 +19,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -49,6 +50,17 @@ public class PromocaoController {
 		return categoriaRepository.findAll();
 	}
 	
+	
+	//add likes
+	@PostMapping("/like/{id}")
+	public ResponseEntity<?> adicionarLikes(@PathVariable("id")Long id){
+		promocaoRepository.updateSomarLikes(id);
+		int likes = promocaoRepository.findLikesById(id);
+		return ResponseEntity.ok(likes);
+	}
+	
+	
+	//salvar promoção
 	@PostMapping("/save")
 	public ResponseEntity<?> salvarPromocao(@Valid Promocao promocao, BindingResult result){
 		
@@ -65,6 +77,7 @@ public class PromocaoController {
 		return ResponseEntity.ok().build();
 	}
 	
+	// listar ofertas
 	@GetMapping("/list")
 	public String listarOfertas(ModelMap model) {
 		Sort sort = Sort.by(Sort.Direction.DESC,"dtCadastro");
@@ -74,6 +87,7 @@ public class PromocaoController {
 		return "promo-list";
 	}
 	
+	//scrollInfinito de Paginação
 	@GetMapping("/list/ajax")
 	public String listarCards(@RequestParam(name="page", defaultValue="1")int page,ModelMap model) {
 		Sort sort = Sort.by(Sort.Direction.DESC,"dtCadastro");
